@@ -36,7 +36,7 @@ const DashboardLayout = () => {
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
-console.log(user);
+    console.log(user);
 
     useEffect(() => {
         const handleResize = () => {
@@ -62,7 +62,7 @@ console.log(user);
     const isActive = (path) => location.pathname === path;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
             {/* Top Navigation Bar */}
             <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
                 <div className="px-4 sm:px-6 lg:px-8">
@@ -84,7 +84,7 @@ console.log(user);
                             {/* Logo/Brand */}
                             <div className="flex items-center gap-3">
                                 <Link to="/" className="p-2 rounded-xl">
-                                    <Logo/>
+                                    <Logo />
                                 </Link>
                             </div>
                         </div>
@@ -96,7 +96,7 @@ console.log(user);
                             <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
                                 <div className="text-right hidden sm:block">
                                     <p className="text-sm font-semibold text-gray-800">{user.displayName}</p>
-                                    <p className="text-xs text-gray-500 capitalize">{role?.role || 'User'}</p>
+                                    <p className="text-xs text-gray-500 capitalize">{role?.role || 'Student'}</p>
                                 </div>
                                 <div className="relative">
                                     <img src={user.photoURL || "https://placehold.co/40x40"} alt="User Profile" className="w-10 h-10 rounded-full object-cover" />
@@ -126,7 +126,7 @@ console.log(user);
                         `}>
                             <div className={`flex items-center ${!isOpen ? 'justify-center' : 'gap-3'}`}>
                                 <div className="relative">
-                                    <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+                                    <div className="w-12 h-12 bg-linear-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
                                         <span className="text-white font-bold text-lg">
                                             <img src={user.photoURL || "https://placehold.co/40x40"} alt="User Profile" className="w-full h-full rounded-xl object-cover" />
                                         </span>
@@ -185,7 +185,7 @@ console.log(user);
                                             isActive={isActive('/dashboard/payment-history')}
                                         />
                                         <NavItem
-                                        
+                                            to="/dashboard/profile-settings"
                                             label="Profile Settings"
                                             icon={<CiSettings className="w-5 h-5" />}
                                             isOpen={isOpen}
@@ -322,7 +322,7 @@ const NavItem = ({ to, label, icon, isOpen, isActive }) => {
                     transition-all duration-200 relative
                     ${isOpen ? 'justify-start' : 'justify-center'}
                     ${isActive
-                        ? 'bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border-l-4 border-primary'
+                        ? 'bg-linear-to-r from-primary/10 to-secondary/10 text-primary border-l-4 border-primary'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-white'
                     }
                     group

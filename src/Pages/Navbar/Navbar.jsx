@@ -6,10 +6,18 @@ import "./navbar.css";
 import { FaUser, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome, FaBook, FaChalkboardTeacher, FaInfoCircle, FaTachometerAlt } from 'react-icons/fa';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
+import UseRole from '../../Hooks/UseRole';
+import Loading from '../../Components/Loading/Loading';
 
 const Navbar = () => {
     const { user, logOut } = UseAuth();
+    const { role, isLoading } = UseRole();
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    console.log(role);
+
+    if (isLoading) {
+        return <Loading />
+    }
 
     const handleLogout = () => {
         logOut()
@@ -34,7 +42,7 @@ const Navbar = () => {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5, type: "spring" }}
-          className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg mb-20 border-b border-slate-200 shadow-sm"
+            className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg mb-20 border-b border-slate-200 shadow-sm"
         >
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 lg:h-20">
@@ -42,7 +50,7 @@ const Navbar = () => {
                     {/* Logo */}
                     <div className="flex items-center">
                         <Link to="/" className="flex items-center space-x-2">
-                            <Logo/>
+                            <Logo />
                         </Link>
                     </div>
 
@@ -59,7 +67,7 @@ const Navbar = () => {
                                     }`
                                 }
                             >
-                           
+
                                 <span>{link.label}</span>
                             </NavLink>
                         ))}
@@ -119,14 +127,18 @@ const Navbar = () => {
                                                     <p className="font-semibold text-secondary">{user.displayName}</p>
                                                     <p className="text-sm text-slate-500 truncate">{user.email}</p>
                                                 </div>
-                                                <Link
-                                                    to="/profile"
-                                                    className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 transition-colors duration-200"
-                                                    onClick={() => setIsProfileOpen(false)}
-                                                >
-                                                    <FaUser className="text-primary" />
-                                                    <span className="text-secondary">My Profile</span>
-                                                </Link>
+                                                {
+                                                    role?.role === "Student" && (
+                                                        <Link
+                                                            to="/dashboard/profile-settings"
+                                                            className="flex items-center space-x-3 px-4 py-3 hover:bg-slate-50 transition-colors duration-200"
+                                                            onClick={() => setIsProfileOpen(false)}
+                                                        >
+                                                            <FaUser className="text-primary" />
+                                                            <span className="text-secondary">My Profile</span>
+                                                        </Link>
+                                                    )
+                                                }
                                                 <button
                                                     onClick={() => {
                                                         handleLogout();
@@ -235,14 +247,18 @@ const Navbar = () => {
                                 <div className="space-y-3 pt-4 border-t border-slate-100">
                                     {user ? (
                                         <>
-                                            <Link
-                                                to="/profile"
-                                                className="flex items-center justify-center space-x-2 w-full px-4 py-3 rounded-xl font-medium bg-slate-100 text-secondary hover:bg-slate-200 transition-colors duration-200"
-                                                onClick={() => setIsProfileOpen(false)}
-                                            >
-                                                <FaUser />
-                                                <span>My Profile</span>
-                                            </Link>
+                                            {
+                                                role?.role === "Student" && (
+                                                    <Link
+                                                        to="/dashboard/profile-settings"
+                                                        className="flex items-center justify-center space-x-2 w-full px-4 py-3 rounded-xl font-medium bg-slate-100 text-secondary hover:bg-slate-200 transition-colors duration-200"
+                                                        onClick={() => setIsProfileOpen(false)}
+                                                    >
+                                                        <FaUser />
+                                                        <span>My Profile</span>
+                                                    </Link>
+                                                )
+                                            }
                                             <button
                                                 onClick={() => {
                                                     handleLogout();

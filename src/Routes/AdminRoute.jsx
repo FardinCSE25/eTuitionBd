@@ -1,21 +1,23 @@
-import React from 'react';
-import UseAuth from '../Hooks/UseAuth';
-import UseRole from '../Hooks/UseRole';
-import Loading from '../Components/Loading/Loading';
-import Forbidden from '../Components/Forbidden/Forbidden';
+import Loading from "../Components/Loading/Loading";
+import UseAuth from "../Hooks/UseAuth";
+import UseRole from "../Hooks/UseRole";
 
 const AdminRoute = ({ children }) => {
-    const { loading } = UseAuth()
-    const { role, isLoading } = UseRole()
+  const { user, loading } = UseAuth();
+  const { role, isLoading } = UseRole();
 
-    if (loading || isLoading) {
-        return <Loading />
-    }
+  // ⏳ WAIT for everything
+  if (loading || isLoading) {
+    return <Loading />;
+  }
 
-    if (role.role !== 'Admin') {
-        return <Forbidden />
-    }
+  // ✅ Access granted
+  if (user && role?.role === "Admin") {
     return children;
+  }
+
+  // ❌ Access denied
+  return <Forbidden />;
 };
 
 export default AdminRoute;
